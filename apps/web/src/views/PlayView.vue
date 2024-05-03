@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import PlayComponent from '@/components/PlayComponent.vue'
 
 const router = useRouter()
-
-const token = ref(localStorage.getItem('token'))
 
 const logout = () => {
   localStorage.removeItem('token')
@@ -15,8 +13,9 @@ const logout = () => {
 
 <template>
   <nav>
-    <div v-if="token">
-      <button @click="logout">Logout</button>
-    </div>
+    <button @click="logout">Logout</button>
   </nav>
+  <div class="h-screen w-full flex items-center justify-center">
+    <PlayComponent />
+  </div>
 </template>
