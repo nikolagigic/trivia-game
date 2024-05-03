@@ -38,7 +38,7 @@ const verifyToken = async (token?: string | null): Promise<boolean> => {
 
   try {
     const response = await axios.post(
-      'http://localhost:3001/api/verify-token',
+      `${import.meta.env.VITE_API_URL}/api/verify-token`,
       {},
       {
         headers: {

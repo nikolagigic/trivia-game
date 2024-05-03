@@ -8,7 +8,7 @@ const state = reactive({
   opponentId: ''
 })
 
-const socket: Socket = io('http://localhost:3001')
+const socket: Socket = io(import.meta.env.VITE_API_URL)
 
 socket.on('connect', () => {
   state.connected = true

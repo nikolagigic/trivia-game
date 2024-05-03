@@ -1,3 +1,3 @@
 node_modules
-# Keep environment variables out of version control
-.env
+# I deliberately did not include the .env file in the .gitignore file because I wanted to show the .env file in the repository. I know that this is not a good practice, but I wanted to show the .env file in the repository.
+# .env
