@@ -6,22 +6,14 @@ const onFindMatch = (socket: string) => {
   const playerCount = PLAYER_IDS.length;
 
   if (playerCount === 2) {
-    console.log("Match found!");
-    const [player1, player2] = PLAYER_IDS;
-    const room = `${player1}-${player2}`;
+    const room = `room-${ROOMS.length + 1}`;
+    const opponentId = PLAYER_IDS[0] === socket ? PLAYER_IDS[1] : PLAYER_IDS[0];
 
     ROOMS.push(room);
-    io.to(player1).emit("match-found", {
-      room,
-      opponentId: player2,
-    });
-    io.to(player1).socketsJoin(room);
 
-    io.to(player2).emit("match-found", {
-      room,
-      opponentId: player1,
+    PLAYER_IDS.map((player) => {
+      io.to(player).emit("match-found", { room, opponentId });
     });
-    io.to(player2).socketsJoin(room);
   }
 };
 

@@ -23,6 +23,8 @@ socket.on('match-found', ({ room, opponentId }: { room: string; opponentId: stri
 
   state.activeRoom = room
   state.opponentId = opponentId
+
+  socket.emit('join-room', { socket, room })
 })
 
 export { socket, state }

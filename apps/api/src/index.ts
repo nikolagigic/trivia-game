@@ -1,6 +1,6 @@
 import { createServer } from "node:http";
 import express, { Express, Request, Response } from "express";
-import { Server } from "socket.io";
+import { Server, Socket } from "socket.io";
 import dotenv from "dotenv";
 import cors from "cors";
 import { createUser, loginUser, verifyToken } from "./routes";
@@ -28,6 +28,10 @@ app.post("/api/login", loginUser);
 app.post("/api/verify-token", verifyToken);
 
 io.on("connection", onConnection);
+io.on("join-room", ({ socket, room }: { socket: Socket; room: string }) => {
+  socket.join(room);
+  console.log(`User joined room: ${room}`);
+});
 
 server.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
