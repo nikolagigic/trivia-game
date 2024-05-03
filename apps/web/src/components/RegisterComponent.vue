@@ -1,9 +1,6 @@
 <script setup lang="ts">
 import axios from 'axios'
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
 
 const email = ref('')
 const password = ref('')
@@ -17,21 +14,15 @@ const register = async () => {
   success.value = ''
 
   try {
-    const response = await axios.post('http://localhost:3001/api/login', {
+    const response = await axios.post('http://localhost:3001/api/register', {
       email,
       password
     })
 
-    const { token } = response.data
-
-    localStorage.setItem('token', token)
-
-    success.value = 'Success!'
-
-    router.push('/play')
+    success.value = response.data.message
   } catch (error: any) {
     if (error.response) {
-      error.value = 'Invalid email or password. Please try again.'
+      error.value = error.response.data.message
     } else {
       error.value = 'An error occurred. Please try again later.'
     }
@@ -42,14 +33,14 @@ const register = async () => {
 </script>
 
 <template>
-  <div class="flex flex-col space-y-4">
-    <h1>Login</h1>
+  <div>
+    <h1>Register</h1>
     <form @submit.prevent="register" class="text-black">
       <input type="email" v-model="email" placeholder="Email" />
       <input type="password" v-model="password" placeholder="Password" />
-      <button type="submit" class="bg-white px-2 py-1" :disabled="loading">Login</button>
+      <button type="submit" class="bg-white px-2 py-1" :disabled="loading">Register</button>
       <p v-if="error">{{ error }}</p>
-      <p v-if="success" class="text-green-500">{{ success }}</p>
+      <p v-if="success">{{ success }}</p>
     </form>
   </div>
 </template>
