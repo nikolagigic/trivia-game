@@ -5,8 +5,8 @@ node_modules
 .pnp
 .pnp.js
 
-# Local env files
-.env
+# I deliberately excluded the .env file from the .gitignore file
+# .env
 .env.local
 .env.development.local
 .env.test.local
