@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import axios from 'axios'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -30,9 +31,40 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach((to, from, next) => {
+const verifyToken = async (token?: string | null): Promise<boolean> => {
+  if (!token) {
+    return false
+  }
+
+  try {
+    const response = await axios.post(
+      'http://localhost:3001/api/verify-token',
+      {},
+      {
+        headers: {
+          Authorization: token
+        }
+      }
+    )
+
+    Promise.resolve(response)
+
+    return response.status === 200
+  } catch (error) {
+    console.error('Error verifying token: ', error)
+    return false
+  }
+}
+
+router.beforeEach(async (to, from, next) => {
   if (to.meta.requiresAuth) {
     const token = localStorage.getItem('token')
+    const verified = await verifyToken(token)
+
+    if (!verified) {
+      next('/login')
+    }
+
     if (token) {
       next()
     } else {

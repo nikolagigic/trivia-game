@@ -1,7 +1,7 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import { createUser, loginUser } from "./routes";
+import { createUser, loginUser, verifyToken } from "./routes";
 
 dotenv.config();
 
@@ -15,8 +15,8 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.post("/api/register", createUser);
-
 app.post("/api/login", loginUser);
+app.post("/api/verify-token", verifyToken);
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
